@@ -2,7 +2,7 @@
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
@@ -20,6 +20,8 @@ import 'reactflow/dist/style.css';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+
+// Define nodeTypes outside component to prevent re-creation on every render
 const nodeTypes = {
   customInput: InputNode,
   llm: LLMNode,
@@ -62,21 +64,21 @@ export const PipelineUI = () => {
       return nodeData;
     }
 
-    const showMiniMapTemporarily = () => {
+    const showMiniMapTemporarily = useCallback(() => {
       setShowMiniMap(true);
       
       // Clear existing timeout
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
-      
-      // Set new timeout to hide minimap after 2 seconds
-      const newTimeout = setTimeout(() => {
-        setShowMiniMap(false);
-      }, 2000);
-      
-      setHideTimeout(newTimeout);
-    };
+      setHideTimeout(prevTimeout => {
+        if (prevTimeout) {
+          clearTimeout(prevTimeout);
+        }
+        
+        // Set new timeout to hide minimap after 2 seconds
+        return setTimeout(() => {
+          setShowMiniMap(false);
+        }, 2000);
+      });
+    }, []);
 
     // Clean up timeout on component unmount
     useEffect(() => {
@@ -127,27 +129,29 @@ export const PipelineUI = () => {
 
     const onViewportChange = useCallback(() => {
         showMiniMapTemporarily();
-    }, [hideTimeout]);
+    }, [showMiniMapTemporarily]);
+
+    const reactFlowProps = useMemo(() => ({
+        nodes,
+        edges,
+        onNodesChange,
+        onEdgesChange,
+        onConnect,
+        onDrop,
+        onDragOver,
+        onInit: setReactFlowInstance,
+        onMove: onViewportChange,
+        onMoveStart: showMiniMapTemporarily,
+        onMoveEnd: onViewportChange,
+        nodeTypes,
+        proOptions,
+        snapGrid: [gridSize, gridSize],
+        connectionLineType: 'smoothstep'
+    }), [nodes, edges, onNodesChange, onEdgesChange, onConnect, onDrop, onDragOver, onViewportChange, showMiniMapTemporarily]);
 
     return (
         <div ref={reactFlowWrapper} style={{ width: '100%', flex: 1 }}>
-            <ReactFlow
-                nodes={nodes}
-                edges={edges}
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                onDrop={onDrop}
-                onDragOver={onDragOver}
-                onInit={setReactFlowInstance}
-                onMove={onViewportChange}
-                onMoveStart={showMiniMapTemporarily}
-                onMoveEnd={onViewportChange}
-                nodeTypes={nodeTypes}
-                proOptions={proOptions}
-                snapGrid={[gridSize, gridSize]}
-                connectionLineType='smoothstep'
-            >
+            <ReactFlow {...reactFlowProps}>
                 <Background color="#aaa" gap={gridSize} />
                 <Controls />
                 {showMiniMap && (
