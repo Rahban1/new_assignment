@@ -2,7 +2,7 @@
 // Displays the drag-and-drop UI
 // --------------------------------------------------
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
@@ -45,6 +45,8 @@ const selector = (state) => ({
 export const PipelineUI = () => {
     const reactFlowWrapper = useRef(null);
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
+    const [showMiniMap, setShowMiniMap] = useState(false);
+    const [hideTimeout, setHideTimeout] = useState(null);
     const {
       nodes,
       edges,
@@ -59,6 +61,31 @@ export const PipelineUI = () => {
       let nodeData = { id: nodeID, nodeType: `${type}` };
       return nodeData;
     }
+
+    const showMiniMapTemporarily = () => {
+      setShowMiniMap(true);
+      
+      // Clear existing timeout
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+      }
+      
+      // Set new timeout to hide minimap after 2 seconds
+      const newTimeout = setTimeout(() => {
+        setShowMiniMap(false);
+      }, 2000);
+      
+      setHideTimeout(newTimeout);
+    };
+
+    // Clean up timeout on component unmount
+    useEffect(() => {
+      return () => {
+        if (hideTimeout) {
+          clearTimeout(hideTimeout);
+        }
+      };
+    }, [hideTimeout]);
 
     const onDrop = useCallback(
         (event) => {
@@ -98,6 +125,10 @@ export const PipelineUI = () => {
         event.dataTransfer.dropEffect = 'move';
     }, []);
 
+    const onViewportChange = useCallback(() => {
+        showMiniMapTemporarily();
+    }, [hideTimeout]);
+
     return (
         <div ref={reactFlowWrapper} style={{ width: '100%', flex: 1 }}>
             <ReactFlow
@@ -109,6 +140,9 @@ export const PipelineUI = () => {
                 onDrop={onDrop}
                 onDragOver={onDragOver}
                 onInit={setReactFlowInstance}
+                onMove={onViewportChange}
+                onMoveStart={showMiniMapTemporarily}
+                onMoveEnd={onViewportChange}
                 nodeTypes={nodeTypes}
                 proOptions={proOptions}
                 snapGrid={[gridSize, gridSize]}
@@ -116,7 +150,14 @@ export const PipelineUI = () => {
             >
                 <Background color="#aaa" gap={gridSize} />
                 <Controls />
-                <MiniMap />
+                {showMiniMap && (
+                    <MiniMap 
+                        style={{
+                            transition: 'opacity 0.3s ease-in-out',
+                            opacity: showMiniMap ? 1 : 0
+                        }}
+                    />
+                )}
             </ReactFlow>
         </div>
     )
