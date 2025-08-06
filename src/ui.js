@@ -3,7 +3,7 @@
 // --------------------------------------------------
 
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import ReactFlow, { Controls, Background, MiniMap } from 'reactflow';
+import ReactFlow, { Controls, Background, MiniMap, getBezierPath } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
 import { InputNode } from './nodes/inputNode';
@@ -20,6 +20,26 @@ import 'reactflow/dist/style.css';
 
 const gridSize = 20;
 const proOptions = { hideAttribution: true };
+
+const CustomConnectionLine = ({ fromX, fromY, toX, toY, connectionLineStyle }) => {
+  const [edgePath] = getBezierPath({
+    sourceX: fromX,
+    sourceY: fromY,
+    targetX: toX,
+    targetY: toY,
+  });
+
+  return (
+    <g>
+      <path
+        fill="none"
+        stroke={connectionLineStyle?.stroke || '#b1b1b7'}
+        className="animated"
+        d={edgePath}
+      />
+    </g>
+  );
+};
 
 // Define nodeTypes outside component to prevent re-creation on every render
 const nodeTypes = {
@@ -146,7 +166,7 @@ export const PipelineUI = () => {
         nodeTypes,
         proOptions,
         snapGrid: [gridSize, gridSize],
-        connectionLineType: 'smoothstep'
+        connectionLineComponent: CustomConnectionLine,
     }), [nodes, edges, onNodesChange, onEdgesChange, onConnect, onDrop, onDragOver, onViewportChange, showMiniMapTemporarily]);
 
     return (
