@@ -50,7 +50,7 @@ export const InputNode = ({ id, data, isConnectable }) => {
         <span style={{
           fontWeight: '600',
           fontSize: '12px',
-          color: '#2d3748',
+          color: isDarkMode ? '#f7fafc' : '#2d3748',
           textTransform: 'uppercase',
           letterSpacing: '0.5px'
         }}>
