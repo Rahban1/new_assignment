@@ -1,18 +1,23 @@
 // Node.js
 
 import { Handle } from 'reactflow';
+import { useDarkMode } from '../DarkModeContext';
 
 export const BaseNode = ({ id, data, handles, title, children, isConnectable, width = 220, height = 110 }) => {
+  const { isDarkMode } = useDarkMode();
+
   return (
     <div
       className={`base-node ${title.toLowerCase()}-node`}
       style={{
         width,
         height,
-        border: '1px solid #cbd5e0',
+        border: `1px solid ${isDarkMode ? '#4a5568' : '#cbd5e0'}`,
         borderRadius: '8px',
-        background: 'white',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+        background: isDarkMode ? '#2d3748' : 'white',
+        boxShadow: isDarkMode 
+          ? '0 1px 3px rgba(0,0,0,0.4)' 
+          : '0 1px 3px rgba(0,0,0,0.12)',
         transition: 'all 0.2s ease-out',
         position: 'relative'
       }}
@@ -27,8 +32,10 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
             background: handle.type === 'target' ? '#3182ce' : '#48bb78',
             width: '12px',
             height: '12px',
-            border: '2px solid white',
-            boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+            border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
+            boxShadow: isDarkMode 
+              ? '0 1px 4px rgba(0,0,0,0.5)' 
+              : '0 1px 4px rgba(0,0,0,0.3)',
             ...handle.style
           }}
           isConnectable={isConnectable}
@@ -40,8 +47,8 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
         className={`${title.toLowerCase()}-node__header`}
         style={{ 
           padding: '8px 12px',
-          borderBottom: '1px solid #e2e8f0',
-          background: '#f7fafc',
+          borderBottom: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
+          background: isDarkMode ? '#374151' : '#f7fafc',
           borderTopLeftRadius: '8px',
           borderTopRightRadius: '8px',
           display: 'flex',
@@ -54,7 +61,7 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
         <span style={{
           fontWeight: '600',
           fontSize: '12px',
-          color: '#2d3748',
+          color: isDarkMode ? '#f7fafc' : '#2d3748',
           textTransform: 'uppercase',
           letterSpacing: '0.5px'
         }}>
@@ -71,7 +78,8 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
           boxSizing: 'border-box',
           display: 'flex',
           flexDirection: 'column',
-          gap: '8px'
+          gap: '8px',
+          color: isDarkMode ? '#f7fafc' : '#2d3748'
         }}
       >
         {children}

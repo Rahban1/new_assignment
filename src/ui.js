@@ -99,8 +99,7 @@ export const PipelineUI = () => {
     }, []);
 
     return (
-        <>
-        <div ref={reactFlowWrapper} style={{width: '100wv', height: '70vh'}}>
+        <div ref={reactFlowWrapper} style={{ width: '100%', flex: 1 }}>
             <ReactFlow
                 nodes={nodes}
                 edges={edges}
@@ -120,6 +119,5 @@ export const PipelineUI = () => {
                 <MiniMap />
             </ReactFlow>
         </div>
-        </>
     )
 }

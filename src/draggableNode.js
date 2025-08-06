@@ -1,6 +1,10 @@
 // draggableNode.js
 
+import { useDarkMode } from './DarkModeContext';
+
 export const DraggableNode = ({ type, label }) => {
+    const { isDarkMode } = useDarkMode();
+    
     const onDragStart = (event, nodeType) => {
       const appData = { nodeType }
       event.target.style.cursor = 'grabbing';
@@ -20,13 +24,36 @@ export const DraggableNode = ({ type, label }) => {
           display: 'flex', 
           alignItems: 'center', 
           borderRadius: '8px',
-          backgroundColor: '#1C2536',
+          backgroundColor: isDarkMode ? '#4a5568' : '#3182ce',
+          border: `2px solid ${isDarkMode ? '#718096' : '#2c5aa0'}`,
+          boxShadow: isDarkMode 
+            ? '0 2px 4px rgba(0,0,0,0.4)' 
+            : '0 2px 4px rgba(0,0,0,0.1)',
           justifyContent: 'center', 
-          flexDirection: 'column'
+          flexDirection: 'column',
+          transition: 'all 0.2s ease'
         }} 
         draggable
+        onMouseOver={(e) => {
+          e.target.style.transform = 'translateY(-2px)';
+          e.target.style.boxShadow = isDarkMode 
+            ? '0 4px 8px rgba(0,0,0,0.5)' 
+            : '0 4px 8px rgba(0,0,0,0.15)';
+        }}
+        onMouseOut={(e) => {
+          e.target.style.transform = 'translateY(0)';
+          e.target.style.boxShadow = isDarkMode 
+            ? '0 2px 4px rgba(0,0,0,0.4)' 
+            : '0 2px 4px rgba(0,0,0,0.1)';
+        }}
       >
-          <span style={{ color: '#fff' }}>{label}</span>
+          <span style={{ 
+            color: '#fff', 
+            fontSize: '12px', 
+            fontWeight: '600',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px'
+          }}>{label}</span>
       </div>
     );
   };

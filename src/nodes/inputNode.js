@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
+import { useDarkMode } from '../DarkModeContext';
 
 export const InputNode = ({ id, data, isConnectable }) => {
+  const { isDarkMode } = useDarkMode();
   const [currName, setCurrName] = useState(data?.inputName || id.replace('customInput-', 'input_'));
   const [inputType, setInputType] = useState(data.inputType || 'Text');
 
@@ -21,10 +23,10 @@ export const InputNode = ({ id, data, isConnectable }) => {
       style={{
         width: 220,
         height: 160,
-        border: '1px solid #cbd5e0',
+        border: `1px solid ${isDarkMode ? '#4a5568' : '#cbd5e0'}`,
         borderRadius: '8px',
-        background: 'white',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
+        background: isDarkMode ? '#2d3748' : 'white',
+        boxShadow: isDarkMode ? '0 1px 3px rgba(0,0,0,0.4)' : '0 1px 3px rgba(0,0,0,0.12)',
         transition: 'all 0.2s ease-out',
         position: 'relative'
       }}
@@ -35,7 +37,7 @@ export const InputNode = ({ id, data, isConnectable }) => {
         style={{ 
           padding: '8px 12px',
           borderBottom: '1px solid #e2e8f0',
-          background: '#f7fafc',
+          background: isDarkMode ? '#374151' : '#f7fafc',
           borderTopLeftRadius: '8px',
           borderTopRightRadius: '8px',
           display: 'flex',
