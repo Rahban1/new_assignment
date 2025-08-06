@@ -1,9 +1,44 @@
 // submit.js
 
 import { useDarkMode } from './DarkModeContext';
+import { useStore } from './store';
 
 export const SubmitButton = () => {
     const { isDarkMode } = useDarkMode();
+    const nodes = useStore((state) => state.nodes);
+    const edges = useStore((state) => state.edges);
+
+    const handleSubmit = async () => {
+        const pipeline = {
+            nodes: nodes,
+            edges: edges
+        };
+
+        try {
+            const formData = new FormData();
+            formData.append('pipeline', JSON.stringify(pipeline));
+
+            const response = await fetch('http://localhost:8000/pipelines/parse', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+            
+            if (result.error) {
+                alert(`Error: ${result.error}`);
+            } else {
+                const dagStatus = result.is_dag ? 'Yes, it is a DAG' : 'No, it contains cycles';
+                alert(`Pipeline Analysis:
+Number of nodes: ${result.num_nodes}
+Number of edges: ${result.num_edges}
+Is it a DAG? ${dagStatus}`);
+            }
+        } catch (error) {
+            console.error('Error submitting pipeline:', error);
+            alert('Error submitting pipeline. Please check the console for details.');
+        }
+    };
 
     return (
         <div style={{
@@ -16,6 +51,7 @@ export const SubmitButton = () => {
         }}>
             <button 
                 type="submit"
+                onClick={handleSubmit}
                 style={{
                     padding: '12px 24px',
                     fontSize: '14px',

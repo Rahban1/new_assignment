@@ -201,14 +201,14 @@ export const TextNode = ({ id, data, isConnectable }) => {
         cancelAnimationFrame(rafRef.current);
       }
     };
-  }, []);
+  }, [calculateDimensions, createMirror, currText]);
 
   useLayoutEffect(() => {
     if (data?.text !== undefined && data.text !== currText) {
       setCurrText(data.text);
       calculateDimensions(data.text);
     }
-  }, [data?.text]);
+  }, [data?.text, calculateDimensions, currText]);
 
   // Calculate left padding for the content area when variables exist
   const contentLeftPadding = variables.length > 0 ? NODE_CONFIG.labelIndent : 8;
