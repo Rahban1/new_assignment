@@ -15,6 +15,7 @@ import { FilterNode } from './nodes/filterNode';
 import { MergeNode } from './nodes/mergeNode';
 import { SplitNode } from './nodes/splitNode';
 import { VisualizeNode } from './nodes/visualizeNode';
+import CustomBezierEdge from './CustomBezierEdge';
 
 import 'reactflow/dist/style.css';
 
@@ -41,7 +42,7 @@ const CustomConnectionLine = ({ fromX, fromY, toX, toY, connectionLineStyle }) =
   );
 };
 
-// Define nodeTypes outside component to prevent re-creation on every render
+// Define nodeTypes and edgeTypes outside component to prevent re-creation on every render
 const nodeTypes = {
   customInput: InputNode,
   llm: LLMNode,
@@ -53,6 +54,11 @@ const nodeTypes = {
   split: SplitNode,
   visualize: VisualizeNode,
 };
+
+const edgeTypes = {
+  custom: CustomBezierEdge,
+};
+
 
 const selector = (state) => ({
   nodes: state.nodes,
@@ -164,6 +170,7 @@ export const PipelineUI = () => {
         onMoveStart: showMiniMapTemporarily,
         onMoveEnd: onViewportChange,
         nodeTypes,
+        edgeTypes,
         proOptions,
         snapGrid: [gridSize, gridSize],
         connectionLineComponent: CustomConnectionLine,

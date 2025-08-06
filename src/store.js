@@ -36,8 +36,19 @@ export const useStore = create((set, get) => ({
       });
     },
     onConnect: (connection) => {
+      const deleteEdgeCallback = (edgeId) => {
+        set({
+          edges: get().edges.filter((edge) => edge.id !== edgeId)
+        });
+      };
+      
       set({
-        edges: addEdge({...connection, type: 'bezier', animated: true}, get().edges),
+        edges: addEdge({
+          ...connection, 
+          type: 'custom', 
+          animated: true,
+          data: { onDelete: deleteEdgeCallback }
+        }, get().edges),
       });
     },
     updateNodeField: (nodeId, fieldName, fieldValue) => {
@@ -49,6 +60,11 @@ export const useStore = create((set, get) => ({
   
           return node;
         }),
+      });
+    },
+    deleteEdge: (edgeId) => {
+      set({
+        edges: get().edges.filter((edge) => edge.id !== edgeId)
       });
     },
   }));
