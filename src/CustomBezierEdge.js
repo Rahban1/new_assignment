@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { getBezierPath } from 'reactflow';
 
 const CustomBezierEdge = ({
@@ -13,6 +13,9 @@ const CustomBezierEdge = ({
   data,
   markerEnd,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const hoverTimeoutRef = useRef(null);
+  
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -22,49 +25,103 @@ const CustomBezierEdge = ({
     targetPosition,
   });
 
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = (evt) => {
+    // Only hide if we're not moving to a child element
+    if (!evt.currentTarget.contains(evt.relatedTarget)) {
+      hoverTimeoutRef.current = setTimeout(() => {
+        setIsHovered(false);
+      }, 300);
+    }
+  };
+
   const onEdgeClick = (evt) => {
     evt.stopPropagation();
     evt.preventDefault();
-    console.log('Delete edge clicked:', id);
-    // We'll use a callback passed through data
     if (data?.onDelete) {
       data.onDelete(id);
     }
   };
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
     <>
+      {/* Main edge path - instant color change */}
       <path
         id={id}
-        style={style}
         className="react-flow__edge-path"
         d={edgePath}
         markerEnd={markerEnd}
+        style={{
+          ...style,
+          stroke: isHovered ? '#dc3545' : (style.stroke || '#b1b1b7'),
+          strokeWidth: isHovered ? 2 : (style.strokeWidth || 1),
+          transition: 'stroke-width 0.1s ease'
+        }}
       />
-      <g onClick={onEdgeClick} style={{ cursor: 'pointer' }}>
-        <circle
-          r="8"
-          cx={labelX}
-          cy={labelY}
-          fill="#dc3545"
-          stroke="white"
-          strokeWidth="1"
-          opacity="0.9"
-          className="react-flow__edge-interaction"
-        />
-        <text
-          x={labelX}
-          y={labelY}
-          textAnchor="middle"
-          dominantBaseline="central"
-          fill="white"
-          fontSize="10"
-          fontWeight="normal"
-          style={{ pointerEvents: 'none', userSelect: 'none' }}
-        >
-          ×
-        </text>
-      </g>
+      
+      {/* Extra thick invisible hover area for reliable detection */}
+      <path
+        d={edgePath}
+        fill="none"
+        stroke="transparent"
+        strokeWidth="60"
+        style={{ 
+          cursor: 'default',
+          pointerEvents: 'stroke'
+        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
+      
+      {/* Delete button - positioned absolutely to avoid interfering with hover */}
+      {isHovered && (
+        <g style={{ pointerEvents: 'all' }}>
+          <circle
+            r={12}
+            cx={labelX}
+            cy={labelY}
+            fill="#dc3545"
+            stroke="white"
+            strokeWidth="2"
+            style={{
+              filter: 'drop-shadow(0 2px 4px rgba(220, 53, 69, 0.4))',
+              cursor: 'pointer'
+            }}
+            onClick={onEdgeClick}
+            onMouseEnter={handleMouseEnter}
+          />
+          <text
+            x={labelX}
+            y={labelY}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill="white"
+            fontSize="12"
+            fontWeight="bold"
+            style={{ 
+              pointerEvents: 'none', 
+              userSelect: 'none'
+            }}
+          >
+            ×
+          </text>
+        </g>
+      )}
     </>
   );
 };
