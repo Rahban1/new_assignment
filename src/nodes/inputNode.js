@@ -150,7 +150,7 @@ export const InputNode = ({ id, data, isConnectable }) => {
         position={Position.Right}
         id={`${id}-value`}
         style={{
-          background: '#48bb78',
+          background: '#10b981',
           width: '12px',
           height: '12px',
           border: '2px solid white',

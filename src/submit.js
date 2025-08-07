@@ -1,6 +1,7 @@
 // submit.js
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { useDarkMode } from './DarkModeContext';
 import { useStore } from './store';
 
@@ -37,7 +38,7 @@ export const SubmitButton = () => {
             
             if (result.error) {
                 setLastSubmissionResult({ success: false, message: result.error });
-                alert(`Error: ${result.error}`);
+                toast.error(`Error: ${result.error}`);
             } else {
                 const dagStatus = result.is_dag ? 'Yes, it is a DAG' : 'No, it contains cycles';
                 const message = `Pipeline Analysis:
@@ -45,12 +46,12 @@ Number of nodes: ${result.num_nodes}
 Number of edges: ${result.num_edges}
 Is it a DAG? ${dagStatus}`;
                 setLastSubmissionResult({ success: true, message });
-                alert(message);
+                toast.success(message);
             }
         } catch (error) {
             console.error('Error submitting pipeline:', error);
             setLastSubmissionResult({ success: false, message: 'Network error occurred' });
-            alert('Error submitting pipeline. Please check the console for details.');
+            toast.error('Error submitting pipeline. Please check the console for details.');
         } finally {
             setIsSubmitting(false);
         }
