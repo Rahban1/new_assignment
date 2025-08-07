@@ -21,12 +21,16 @@ export const DarkModeProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
     
-    // Apply dark mode class to document body
+    // Apply dark mode class to documentElement (html)
+    const docEl = document.documentElement;
     if (isDarkMode) {
-      document.body.classList.add('dark-mode');
+      docEl.classList.add('dark');
     } else {
-      document.body.classList.remove('dark-mode');
+      docEl.classList.remove('dark');
     }
+
+    // Clean up legacy body class if present
+    document.body.classList.remove('dark-mode');
   }, [isDarkMode]);
 
   const toggleDarkMode = () => {

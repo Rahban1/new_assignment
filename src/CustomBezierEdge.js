@@ -92,14 +92,14 @@ const CustomBezierEdge = ({
       {isHovered && (
         <g style={{ pointerEvents: 'all' }}>
           <circle
-            r={12}
+            r={8}
             cx={labelX}
             cy={labelY}
-            fill="var(--danger)"
+            fill="rgb(255,0,0)"
             stroke="white"
-            strokeWidth="2"
+            strokeWidth="1"
             style={{
-              filter: 'drop-shadow(0 2px 4px color-mix(in srgb, var(--danger) 40%, transparent))',
+              filter: 'drop-shadow(0 2px 4px color-mix(in srgb, rgb(255,0,0) 40%, transparent))',
               cursor: 'pointer'
             }}
             onClick={onEdgeClick}

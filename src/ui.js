@@ -185,7 +185,7 @@ export const PipelineUI = () => {
                     variant="dots"
                     gap={gridSize}
                     size={2.4}
-                    color={isDarkMode ? 'rgba(255, 255, 255, 0.20)' : 'rgba(0, 0, 0, 0.25)'}
+                    color={isDarkMode ? 'rgba(237, 235, 229, 0.10)' : 'rgba(31, 35, 40, 0.10)'}
                 />
                 <Controls />
                 {showMiniMap && (
