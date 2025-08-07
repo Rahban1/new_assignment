@@ -67,4 +67,24 @@ export const useStore = create((set, get) => ({
         edges: get().edges.filter((edge) => edge.id !== edgeId)
       });
     },
+    deleteNode: (nodeId) => {
+      set({
+        nodes: get().nodes.filter((node) => node.id !== nodeId),
+        edges: get().edges.filter((edge) => edge.source !== nodeId && edge.target !== nodeId)
+      });
+    },
+    toggleNodeMinimize: (nodeId) => {
+      set({
+        nodes: get().nodes.map((node) => {
+          if (node.id === nodeId) {
+            const isMinimized = node.data.isMinimized || false;
+            return {
+              ...node,
+              data: { ...node.data, isMinimized: !isMinimized }
+            };
+          }
+          return node;
+        }),
+      });
+    },
   }));

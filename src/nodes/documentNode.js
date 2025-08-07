@@ -30,11 +30,11 @@ export const DocumentNode = ({ id, data, isConnectable }) => {
             width: '100%',
             padding: '6px 8px',
             border: '1px solid #e2e8f0',
+            // background: isDarkMode ? '#374151' : 'white',
             borderRadius: '4px',
             fontSize: '12px',
             outline: 'none',
             transition: 'all 0.2s',
-            background: 'white',
             boxSizing: 'border-box'
           }}
           onFocus={(e) => {

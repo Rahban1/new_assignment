@@ -2,8 +2,12 @@
 import { useState } from 'react';
 import { Position } from 'reactflow';
 import { BaseNode } from './node_skeleton';
+import { useDarkMode } from '../DarkModeContext';
 
 export const FilterNode = ({ id, data, isConnectable }) => {
+
+  const isDarkMode = useDarkMode();
+  
   const [query, setQuery] = useState(data?.query || '');
 
   const handleQueryChange = (e) => {
@@ -46,6 +50,7 @@ export const FilterNode = ({ id, data, isConnectable }) => {
             width: '100%',
             padding: '6px 8px',
             border: '1px solid #e2e8f0',
+            background: isDarkMode ? '#374151' : 'white',
             borderRadius: '4px',
             fontSize: '12px',
             outline: 'none',

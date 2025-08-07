@@ -106,6 +106,7 @@ export const OutputNode = ({ id, data, isConnectable }) => {
               width: '100%',
               padding: '6px 8px',
               border: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
+              background: isDarkMode ? '#374151' : 'white',
               borderRadius: '4px',
               fontSize: '12px',
               outline: 'none',
