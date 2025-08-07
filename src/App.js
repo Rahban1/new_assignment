@@ -13,9 +13,9 @@ function AppContent() {
   return (
     <div style={{
       height: '100vh',
-      backgroundColor: isDarkMode ? '#1a202c' : '#ffffff',
-      color: isDarkMode ? '#f7fafc' : '#2d3748',
-      transition: 'all 0.3s ease',
+      backgroundColor: 'var(--bg)',
+      color: 'var(--text)',
+      transition: 'background var(--duration) var(--easing), color var(--duration) var(--easing)',
       display: 'flex',
       flexDirection: 'column',
       position: 'relative'
@@ -31,7 +31,7 @@ function AppContent() {
         alignItems: 'center',
         gap: '10px',
         padding: '10px',
-        transition: 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        transition: 'transform var(--duration-slow) var(--easing)',
       }}>
         <PipelineToolbar isExpanded={isToolbarExpanded} toggleToolbar={() => setIsToolbarExpanded(!isToolbarExpanded)} />
         <SubmitButton />
@@ -43,9 +43,9 @@ function AppContent() {
         closeButton
         toastOptions={{
           style: {
-            background: isDarkMode ? '#1f2937' : '#ffffff',
-            border: isDarkMode ? '1px solid #374151' : '1px solid #e5e7eb',
-            color: isDarkMode ? '#f9fafb' : '#111827',
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            color: 'var(--text)',
             fontSize: '16px',
             padding: '16px 20px',
             minWidth: '400px',

@@ -59,56 +59,41 @@ Is it a DAG? ${dagStatus}`;
 
     const getButtonStyle = () => ({
         position: 'relative',
-        padding: '0',
+        padding: 0,
         width: '56px',
         height: '56px',
         borderRadius: '28px',
         border: 'none',
-        background: hasNodes 
-            ? (isDarkMode 
-                ? 'linear-gradient(135deg, #4ade80 0%, #22c55e 100%)' 
-                : 'linear-gradient(135deg, #10b981 0%, #059669 100%)')
-            : (isDarkMode ? '#374151' : '#d1d5db'),
-        color: hasNodes ? 'white' : (isDarkMode ? '#6b7280' : '#9ca3af'),
+        background: hasNodes ? 'var(--primary)' : 'var(--bg-muted)',
+        color: hasNodes ? 'white' : 'var(--text-muted)',
         cursor: hasNodes && !isSubmitting ? 'pointer' : 'not-allowed',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), color var(--duration) var(--easing)',
         boxShadow: hasNodes 
-            ? (isDarkMode 
-                ? '0 8px 25px rgba(34, 197, 94, 0.3), 0 4px 10px rgba(0, 0, 0, 0.3)' 
-                : '0 8px 25px rgba(16, 185, 129, 0.25), 0 4px 10px rgba(0, 0, 0, 0.1)')
-            : (isDarkMode 
-                ? '0 2px 8px rgba(0, 0, 0, 0.3)' 
-                : '0 2px 8px rgba(0, 0, 0, 0.1)'),
+            ? '0 16px 38px color-mix(in srgb, var(--primary) 28%, transparent), var(--shadow-md)'
+            : 'var(--shadow-sm)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         overflow: 'hidden',
-        transform: isSubmitting ? 'scale(0.95)' : 'scale(1)',
-        backdropFilter: 'blur(10px)',
+        transform: isSubmitting ? 'scale(0.96)' : 'scale(1)'
     });
 
     const getHoverStyle = () => ({
-        transform: hasNodes && !isSubmitting ? 'translateY(-2px) scale(1.02)' : 'scale(1)',
-        boxShadow: hasNodes && !isSubmitting
-            ? (isDarkMode 
-                ? '0 12px 35px rgba(34, 197, 94, 0.4), 0 6px 15px rgba(0, 0, 0, 0.4)' 
-                : '0 12px 35px rgba(16, 185, 129, 0.35), 0 6px 15px rgba(0, 0, 0, 0.15)')
-            : getButtonStyle().boxShadow,
+        transform: hasNodes && !isSubmitting ? 'translateY(-1px) scale(1.02)' : 'scale(1)',
+        boxShadow: hasNodes && !isSubmitting ? '0 20px 42px color-mix(in srgb, var(--primary) 32%, transparent), var(--shadow-lg)' : getButtonStyle().boxShadow,
     });
 
     const renderIcon = () => {
         if (isSubmitting) {
             return (
-                <div
-                    style={{
-                        width: '24px',
-                        height: '24px',
-                        border: '3px solid rgba(255, 255, 255, 0.3)',
-                        borderTop: '3px solid white',
-                        borderRadius: '50%',
-                        animation: 'spin 1s linear infinite',
-                    }}
-                />
+                <div style={{
+                    width: '24px',
+                    height: '24px',
+                    border: '3px solid rgba(255, 255, 255, 0.3)',
+                    borderTop: '3px solid white',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                }} />
             );
         }
 
@@ -153,48 +138,18 @@ Is it a DAG? ${dagStatus}`;
         >
             <style>
                 {`
-                    @keyframes spin {
-                        0% { transform: rotate(0deg); }
-                        100% { transform: rotate(360deg); }
-                    }
-                    
-                    @keyframes pulse {
-                        0%, 100% { opacity: 1; }
-                        50% { opacity: 0.7; }
-                    }
-
                     .submit-button-tooltip {
                         position: absolute;
                         bottom: 70px;
                         left: 50%;
                         transform: translateX(-50%);
-                        background: ${isDarkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)'};
-                        color: white;
-                        padding: 8px 12px;
-                        border-radius: 6px;
-                        font-size: 12px;
-                        font-weight: 500;
-                        white-space: nowrap;
-                        opacity: 0;
-                        pointer-events: none;
-                        transition: opacity 0.2s ease;
-                        backdrop-filter: blur(10px);
-                        border: 1px solid rgba(255, 255, 255, 0.1);
                         z-index: 1000;
+                        opacity: 0;
+                        transition: opacity var(--duration) var(--easing);
                     }
 
                     .submit-button-wrapper:hover .submit-button-tooltip {
                         opacity: 1;
-                    }
-
-                    .submit-button-wrapper:hover .submit-button-tooltip::after {
-                        content: '';
-                        position: absolute;
-                        top: 100%;
-                        left: 50%;
-                        transform: translateX(-50%);
-                        border: 6px solid transparent;
-                        border-top-color: ${isDarkMode ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, 0.8)'};
                     }
                 `}
             </style>
@@ -207,20 +162,20 @@ Is it a DAG? ${dagStatus}`;
                     style={getButtonStyle()}
                     onMouseEnter={(e) => {
                         if (hasNodes && !isSubmitting) {
-                            Object.assign(e.target.style, getHoverStyle());
+                            Object.assign(e.currentTarget.style, getHoverStyle());
                         }
                     }}
                     onMouseLeave={(e) => {
-                        Object.assign(e.target.style, getButtonStyle());
+                        Object.assign(e.currentTarget.style, getButtonStyle());
                     }}
                     onMouseDown={(e) => {
                         if (hasNodes && !isSubmitting) {
-                            e.target.style.transform = 'translateY(0) scale(0.98)';
+                            e.currentTarget.style.transform = 'translateY(0) scale(0.98)';
                         }
                     }}
                     onMouseUp={(e) => {
                         if (hasNodes && !isSubmitting) {
-                            Object.assign(e.target.style, getHoverStyle());
+                            Object.assign(e.currentTarget.style, getHoverStyle());
                         }
                     }}
                     aria-label={getTooltipText()}
@@ -245,8 +200,10 @@ Is it a DAG? ${dagStatus}`;
                     )}
                 </button>
                 
-                <div className="submit-button-tooltip">
-                    {getTooltipText()}
+                <div className="submit-button-tooltip ds-tooltip" style={{ position: 'absolute' }}>
+                    <div className="ds-tooltip__title">Submit</div>
+                    <div className="ds-tooltip__desc">{getTooltipText()}</div>
+                    <div className="ds-tooltip__arrow"></div>
                 </div>
             </div>
         </div>

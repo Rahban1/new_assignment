@@ -23,19 +23,16 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
 
   return (
     <div
-      className={`base-node ${title.toLowerCase()}-node`}
+      className={`base-node ds-node ${title.toLowerCase()}-node`}
       style={{
         width,
         height: isMinimized ? 40 : height,
-        border: `1px solid ${isDarkMode ? '#4a5568' : '#cbd5e0'}`,
-        borderRadius: '8px',
-        background: isDarkMode ? '#2d3748' : 'white',
-        boxShadow: isDarkMode 
-          ? '0 1px 3px rgba(0,0,0,0.4)' 
-          : '0 1px 3px rgba(0,0,0,0.12)',
-        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        border: '1px solid var(--border)',
+        borderRadius: '12px',
+        background: 'var(--surface)',
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), border-color var(--duration) var(--easing)',
         position: 'relative',
-        // overflow: 'hidden'
       }}
     >
       {handles.map((handle, index) => (
@@ -45,13 +42,11 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
           position={handle.position}
           id={`${id}-${handle.id}`}
           style={{
-            background: handle.type === 'target' ? '#3182ce' : '#48bb78',
+            background: handle.type === 'target' ? 'var(--primary)' : 'var(--success)',
             width: '12px',
             height: '12px',
-            border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
-            boxShadow: isDarkMode 
-              ? '0 1px 4px rgba(0,0,0,0.5)' 
-              : '0 1px 4px rgba(0,0,0,0.3)',
+            border: '2px solid var(--surface)',
+            boxShadow: 'var(--shadow-sm)',
             ...handle.style
           }}
           isConnectable={isConnectable}
@@ -60,15 +55,15 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
       
       {/* Node Header */}
       <div 
-        className={`${title.toLowerCase()}-node__header`}
+        className={`${title.toLowerCase()}-node__header ds-node__header`}
         style={{ 
           padding: '8px 12px',
-          borderBottom: isMinimized ? 'none' : `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
-          background: isDarkMode ? '#374151' : '#f7fafc',
-          borderTopLeftRadius: '7px',
-          borderTopRightRadius: '7px',
-          borderBottomLeftRadius: isMinimized ? '7px' : '0',
-          borderBottomRightRadius: isMinimized ? '7px' : '0',
+          borderBottom: isMinimized ? 'none' : '1px solid var(--border)',
+          background: 'var(--surface-2)',
+          borderTopLeftRadius: '11px',
+          borderTopRightRadius: '11px',
+          borderBottomLeftRadius: isMinimized ? '11px' : '0',
+          borderBottomRightRadius: isMinimized ? '11px' : '0',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -76,13 +71,7 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
           boxSizing: 'border-box'
         }}
       >
-        <span style={{
-          fontWeight: '600',
-          fontSize: '12px',
-          color: isDarkMode ? '#f7fafc' : '#2d3748',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px'
-        }}>
+        <span className="ds-node__title" style={{ color: 'var(--text)' }}>
           {title} Node
         </span>
         
@@ -95,24 +84,22 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
               height: '16px',
               border: 'none',
               background: 'transparent',
-              color: isDarkMode ? '#9ca3af' : '#6b7280',
+              color: 'var(--text-muted)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 0.2s ease',
+              transition: 'transform var(--duration) var(--easing), color var(--duration) var(--easing)',
               transform: 'scale(1)',
-              padding: '0'
+              padding: 0
             }}
             onMouseOver={(e) => {
-              e.target.style.color = isDarkMode ? '#d1d5db' : '#374151';
-              e.target.style.transform = 'scale(1.1)';
-              e.target.style.background = 'transparent';
+              e.target.style.color = 'var(--text)';
+              e.target.style.transform = 'scale(1.08)';
             }}
             onMouseOut={(e) => {
-              e.target.style.color = isDarkMode ? '#9ca3af' : '#6b7280';
+              e.target.style.color = 'var(--text-muted)';
               e.target.style.transform = 'scale(1)';
-              e.target.style.background = 'transparent';
             }}
             title={isMinimized ? 'Expand node' : 'Minimize node'}
           >
@@ -135,24 +122,22 @@ export const BaseNode = ({ id, data, handles, title, children, isConnectable, wi
               height: '16px',
               border: 'none',
               background: 'transparent',
-              color: '#dc3545',
+              color: 'var(--danger)',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 0.2s ease',
+              transition: 'transform var(--duration) var(--easing), color var(--duration) var(--easing)',
               transform: 'scale(1)',
-              padding: '0'
+              padding: 0
             }}
             onMouseOver={(e) => {
-              e.target.style.color = '#b91c1c';
-              e.target.style.transform = 'scale(1.1)';
-              e.target.style.background = 'transparent';
+              e.target.style.color = 'color-mix(in srgb, var(--danger) 86%, black)';
+              e.target.style.transform = 'scale(1.08)';
             }}
             onMouseOut={(e) => {
-              e.target.style.color = '#dc3545';
+              e.target.style.color = 'var(--danger)';
               e.target.style.transform = 'scale(1)';
-              e.target.style.background = 'transparent';
             }}
             title="Delete node"
           >

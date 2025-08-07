@@ -6,7 +6,7 @@ import { useDarkMode } from '../DarkModeContext';
 
 export const FilterNode = ({ id, data, isConnectable }) => {
 
-  const isDarkMode = useDarkMode();
+  const { isDarkMode } = useDarkMode();
   
   const [query, setQuery] = useState(data?.query || '');
 
@@ -35,7 +35,7 @@ export const FilterNode = ({ id, data, isConnectable }) => {
         <label style={{ 
           display: 'block', 
           fontSize: '11px', 
-          color: '#4a5568', 
+          color: 'var(--text-muted)', 
           marginBottom: '4px',
           fontWeight: '500'
         }}>
@@ -49,20 +49,21 @@ export const FilterNode = ({ id, data, isConnectable }) => {
           style={{
             width: '100%',
             padding: '6px 8px',
-            border: '1px solid #e2e8f0',
-            background: isDarkMode ? '#374151' : 'white',
-            borderRadius: '4px',
+            border: '1px solid var(--border)',
+            background: 'var(--surface)',
+            color: 'var(--text)',
+            borderRadius: '8px',
             fontSize: '12px',
             outline: 'none',
-            transition: 'all 0.2s',
+            transition: 'border-color var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), color var(--duration) var(--easing)',
             boxSizing: 'border-box'
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = '#3182ce';
-            e.target.style.boxShadow = '0 0 0 3px rgba(49, 130, 206, 0.1)';
+            e.target.style.borderColor = 'var(--primary)';
+            e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent)';
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = '#e2e8f0';
+            e.target.style.borderColor = 'var(--border)';
             e.target.style.boxShadow = 'none';
           }}
         />

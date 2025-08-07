@@ -23,11 +23,11 @@ export const InputNode = ({ id, data, isConnectable }) => {
       style={{
         width: 220,
         height: 160,
-        border: `1px solid ${isDarkMode ? '#4a5568' : '#cbd5e0'}`,
-        borderRadius: '8px',
-        background: isDarkMode ? '#2d3748' : 'white',
-        boxShadow: isDarkMode ? '0 1px 3px rgba(0,0,0,0.4)' : '0 1px 3px rgba(0,0,0,0.12)',
-        transition: 'all 0.2s ease-out',
+        border: '1px solid var(--border)',
+        borderRadius: '12px',
+        background: 'var(--surface)',
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing)',
         position: 'relative'
       }}
     >
@@ -36,10 +36,10 @@ export const InputNode = ({ id, data, isConnectable }) => {
         className="input-node__header" 
         style={{ 
           padding: '8px 12px',
-          borderBottom: '1px solid #e2e8f0',
-          background: isDarkMode ? '#374151' : '#f7fafc',
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
+          borderBottom: '1px solid var(--border)',
+          background: 'var(--surface-2)',
+          borderTopLeftRadius: '11px',
+          borderTopRightRadius: '11px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -50,7 +50,7 @@ export const InputNode = ({ id, data, isConnectable }) => {
         <span style={{
           fontWeight: '600',
           fontSize: '12px',
-          color: isDarkMode ? '#f7fafc' : '#2d3748',
+          color: 'var(--text)',
           textTransform: 'uppercase',
           letterSpacing: '0.5px'
         }}>
@@ -74,7 +74,7 @@ export const InputNode = ({ id, data, isConnectable }) => {
           <label style={{ 
             display: 'block', 
             fontSize: '11px', 
-            color: '#4a5568', 
+            color: 'var(--text-muted)', 
             marginBottom: '4px',
             fontWeight: '500'
           }}>
@@ -87,20 +87,21 @@ export const InputNode = ({ id, data, isConnectable }) => {
             style={{
               width: '100%',
               padding: '6px 8px',
-              border: '1px solid #e2e8f0',
-              background: isDarkMode ? '#374151' : 'white',
-              borderRadius: '4px',
+              border: '1px solid var(--border)',
+              background: 'var(--surface)',
+              color: 'var(--text)',
+              borderRadius: '8px',
               fontSize: '12px',
               outline: 'none',
-              transition: 'all 0.2s',
+              transition: 'border-color var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), color var(--duration) var(--easing)',
               boxSizing: 'border-box'
             }}
             onFocus={(e) => {
-              e.target.style.borderColor = '#3182ce';
-              e.target.style.boxShadow = '0 0 0 3px rgba(49, 130, 206, 0.1)';
+              e.target.style.borderColor = 'var(--primary)';
+              e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent)';
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = '#e2e8f0';
+              e.target.style.borderColor = 'var(--border)';
               e.target.style.boxShadow = 'none';
             }}
           />
@@ -109,7 +110,7 @@ export const InputNode = ({ id, data, isConnectable }) => {
           <label style={{ 
             display: 'block', 
             fontSize: '11px', 
-            color: '#4a5568', 
+            color: 'var(--text-muted)', 
             marginBottom: '4px',
             fontWeight: '500'
           }}>
@@ -121,20 +122,21 @@ export const InputNode = ({ id, data, isConnectable }) => {
             style={{
               width: '100%',
               padding: '6px 8px',
-              border: '1px solid #e2e8f0',
-              background: isDarkMode ? '#374151' : 'white',
-              borderRadius: '4px',
+              border: '1px solid var(--border)',
+              background: 'var(--surface)',
+              color: 'var(--text)',
+              borderRadius: '8px',
               fontSize: '12px',
               outline: 'none',
-              transition: 'all 0.2s',
+              transition: 'border-color var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), color var(--duration) var(--easing)',
               boxSizing: 'border-box'
             }}
             onFocus={(e) => {
-              e.target.style.borderColor = '#3182ce';
-              e.target.style.boxShadow = '0 0 0 3px rgba(49, 130, 206, 0.1)';
+              e.target.style.borderColor = 'var(--primary)';
+              e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent)';
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = '#e2e8f0';
+              e.target.style.borderColor = 'var(--border)';
               e.target.style.boxShadow = 'none';
             }}
           >
@@ -150,11 +152,11 @@ export const InputNode = ({ id, data, isConnectable }) => {
         position={Position.Right}
         id={`${id}-value`}
         style={{
-          background: '#10b981',
+          background: 'var(--success)',
           width: '12px',
           height: '12px',
-          border: '2px solid white',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.3)',
+          border: '2px solid var(--surface)',
+          boxShadow: 'var(--shadow-sm)',
           right: -6
         }}
         isConnectable={isConnectable}

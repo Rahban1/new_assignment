@@ -12,13 +12,11 @@ export const LLMNode = ({ id, data, isConnectable }) => {
       style={{
         width: 220,
         height: 110,
-        border: `1px solid ${isDarkMode ? '#4a5568' : '#cbd5e0'}`,
-        borderRadius: '8px',
-        background: isDarkMode ? '#2d3748' : 'white',
-        boxShadow: isDarkMode 
-          ? '0 1px 3px rgba(0,0,0,0.4)' 
-          : '0 1px 3px rgba(0,0,0,0.12)',
-        transition: 'all 0.2s ease-out',
+        border: '1px solid var(--border)',
+        borderRadius: '12px',
+        background: 'var(--surface)',
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing)',
         position: 'relative'
       }}
     >
@@ -28,13 +26,11 @@ export const LLMNode = ({ id, data, isConnectable }) => {
         position={Position.Left}
         id={`${id}-system`}
         style={{
-          background: '#3182ce',
+          background: 'var(--primary)',
           width: '12px',
           height: '12px',
-          border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
-          boxShadow: isDarkMode 
-            ? '0 1px 4px rgba(0,0,0,0.5)' 
-            : '0 1px 4px rgba(0,0,0,0.3)',
+          border: '2px solid var(--surface)',
+          boxShadow: 'var(--shadow-sm)',
           left: -6,
           top: '45px'
         }}
@@ -46,13 +42,11 @@ export const LLMNode = ({ id, data, isConnectable }) => {
         position={Position.Left}
         id={`${id}-prompt`}
         style={{
-          background: '#3182ce',
+          background: 'var(--primary)',
           width: '12px',
           height: '12px',
-          border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
-          boxShadow: isDarkMode 
-            ? '0 1px 4px rgba(0,0,0,0.5)' 
-            : '0 1px 4px rgba(0,0,0,0.3)',
+          border: '2px solid var(--surface)',
+          boxShadow: 'var(--shadow-sm)',
           left: -6,
           top: '75px'
         }}
@@ -61,13 +55,13 @@ export const LLMNode = ({ id, data, isConnectable }) => {
 
       {/* Node Header */}
       <div 
-        className="llm-node__header" 
+        className="llm-node__header ds-node__header" 
         style={{ 
           padding: '8px 12px',
-          borderBottom: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
-          background: isDarkMode ? '#374151' : '#f7fafc',
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
+          borderBottom: '1px solid var(--border)',
+          background: 'var(--surface-2)',
+          borderTopLeftRadius: '11px',
+          borderTopRightRadius: '11px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -75,20 +69,14 @@ export const LLMNode = ({ id, data, isConnectable }) => {
           boxSizing: 'border-box'
         }}
       >
-        <span style={{
-          fontWeight: '600',
-          fontSize: '12px',
-          color: isDarkMode ? '#f7fafc' : '#2d3748',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px'
-        }}>
+        <span className="ds-node__title" style={{ color: 'var(--text)' }}>
           LLM Node
         </span>
       </div>
       
       {/* Content Area */}
       <div 
-        className="llm-node__content"
+        className="llm-node__content ds-node__content"
         style={{ 
           padding: '12px',
           height: 'calc(100% - 35px)',
@@ -100,7 +88,7 @@ export const LLMNode = ({ id, data, isConnectable }) => {
       >
         <span style={{
           fontSize: '11px',
-          color: isDarkMode ? '#cbd5e0' : '#4a5568',
+          color: 'var(--text-muted)',
           textAlign: 'center'
         }}>
           Large Language Model processing
@@ -113,13 +101,11 @@ export const LLMNode = ({ id, data, isConnectable }) => {
         position={Position.Right}
         id={`${id}-response`}
         style={{
-          background: '#48bb78',
+          background: 'var(--success)',
           width: '12px',
           height: '12px',
-          border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
-          boxShadow: isDarkMode 
-            ? '0 1px 4px rgba(0,0,0,0.5)' 
-            : '0 1px 4px rgba(0,0,0,0.3)',
+          border: '2px solid var(--surface)',
+          boxShadow: 'var(--shadow-sm)',
           right: -6
         }}
         isConnectable={isConnectable}
@@ -131,11 +117,11 @@ export const LLMNode = ({ id, data, isConnectable }) => {
         left: '8px',
         top: '38px',
         fontSize: '10px',
-        color: isDarkMode ? '#cbd5e0' : '#718096',
-        background: isDarkMode ? '#374151' : '#f7fafc',
+        color: 'var(--text-muted)',
+        background: 'var(--surface-2)',
         padding: '1px 4px',
         borderRadius: '2px',
-        border: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`
+        border: '1px solid var(--border)'
       }}>
         system
       </div>
@@ -145,11 +131,11 @@ export const LLMNode = ({ id, data, isConnectable }) => {
         left: '8px',
         top: '68px',
         fontSize: '10px',
-        color: isDarkMode ? '#cbd5e0' : '#718096',
-        background: isDarkMode ? '#374151' : '#f7fafc',
+        color: 'var(--text-muted)',
+        background: 'var(--surface-2)',
         padding: '1px 4px',
         borderRadius: '2px',
-        border: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`
+        border: '1px solid var(--border)'
       }}>
         prompt
       </div>

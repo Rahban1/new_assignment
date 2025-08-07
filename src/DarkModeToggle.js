@@ -14,31 +14,25 @@ export const DarkModeToggle = () => {
         width: '48px',
         height: '48px',
         borderRadius: '50%',
-        border: isDarkMode ? '2px solid #4a5568' : '2px solid #e2e8f0',
-        background: isDarkMode ? '#2d3748' : 'white',
-        color: isDarkMode ? '#f7fafc' : '#2d3748',
+        border: '1px solid var(--border)',
+        background: 'var(--surface)',
+        color: 'var(--text)',
         cursor: 'pointer',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         fontSize: '20px',
-        transition: 'all 0.3s ease',
-        boxShadow: isDarkMode 
-          ? '0 2px 8px rgba(0,0,0,0.3)' 
-          : '0 2px 8px rgba(0,0,0,0.15)',
+        transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), color var(--duration) var(--easing)',
+        boxShadow: 'var(--shadow-sm)',
         zIndex: 1000
       }}
       onMouseOver={(e) => {
-        e.target.style.transform = 'scale(1.1)';
-        e.target.style.boxShadow = isDarkMode 
-          ? '0 4px 12px rgba(0,0,0,0.4)' 
-          : '0 4px 12px rgba(0,0,0,0.2)';
+        e.target.style.transform = 'translateY(-1px) scale(1.04)';
+        e.target.style.boxShadow = getComputedStyle(document.body).getPropertyValue('--shadow-md');
       }}
       onMouseOut={(e) => {
         e.target.style.transform = 'scale(1)';
-        e.target.style.boxShadow = isDarkMode 
-          ? '0 2px 8px rgba(0,0,0,0.3)' 
-          : '0 2px 8px rgba(0,0,0,0.15)';
+        e.target.style.boxShadow = getComputedStyle(document.body).getPropertyValue('--shadow-sm');
       }}
       title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
     >

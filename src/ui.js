@@ -16,10 +16,11 @@ import { MergeNode } from './nodes/mergeNode';
 import { SplitNode } from './nodes/splitNode';
 import { VisualizeNode } from './nodes/visualizeNode';
 import CustomBezierEdge from './CustomBezierEdge';
+import { useDarkMode } from './DarkModeContext';
 
 import 'reactflow/dist/style.css';
 
-const gridSize = 20;
+const gridSize = 40;
 const proOptions = { hideAttribution: true };
 
 const CustomConnectionLine = ({ fromX, fromY, toX, toY, connectionLineStyle }) => {
@@ -75,6 +76,7 @@ export const PipelineUI = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [showMiniMap, setShowMiniMap] = useState(false);
     const [hideTimeout, setHideTimeout] = useState(null);
+    const { isDarkMode } = useDarkMode();
     const {
       nodes,
       edges,
@@ -179,13 +181,22 @@ export const PipelineUI = () => {
     return (
         <div ref={reactFlowWrapper} style={{ width: '100%', flex: 1 }}>
             <ReactFlow {...reactFlowProps}>
-                <Background color="#aaa" gap={gridSize} />
+                <Background
+                    variant="dots"
+                    gap={gridSize}
+                    size={2.4}
+                    color={isDarkMode ? 'rgba(255, 255, 255, 0.20)' : 'rgba(0, 0, 0, 0.25)'}
+                />
                 <Controls />
                 {showMiniMap && (
                     <MiniMap 
                         style={{
-                            transition: 'opacity 0.3s ease-in-out',
-                            opacity: showMiniMap ? 1 : 0
+                            transition: 'opacity var(--duration) var(--easing)',
+                            opacity: showMiniMap ? 1 : 0,
+                            background: 'var(--surface)',
+                            border: '1px solid var(--border)',
+                            borderRadius: '10px',
+                            boxShadow: 'var(--shadow-sm)'
                         }}
                     />
                 )}

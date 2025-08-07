@@ -32,7 +32,7 @@ export const MergeNode = ({ id, data, isConnectable }) => {
         justifyContent: 'center',
         height: '100%',
         fontSize: '11px',
-        color: '#4a5568',
+        color: 'var(--text-muted)',
         textAlign: 'center'
       }}>
         Combines multiple inputs into one

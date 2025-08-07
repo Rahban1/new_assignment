@@ -20,7 +20,7 @@ export const VisualizeNode = ({ id, data, isConnectable }) => {
         justifyContent: 'center',
         height: '100%',
         fontSize: '11px',
-        color: '#4a5568',
+        color: 'var(--text-muted)',
         textAlign: 'center'
       }}>
         Creates visual representations

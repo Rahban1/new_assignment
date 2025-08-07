@@ -32,7 +32,7 @@ export const SplitNode = ({ id, data, isConnectable }) => {
         justifyContent: 'center',
         height: '100%',
         fontSize: '11px',
-        color: '#4a5568',
+        color: 'var(--text-muted)',
         textAlign: 'center'
       }}>
         Splits input into multiple outputs

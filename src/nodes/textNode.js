@@ -219,13 +219,11 @@ export const TextNode = ({ id, data, isConnectable }) => {
       style={{
         width: dimensions.width,
         height: dimensions.height,
-        border: `1px solid ${isDarkMode ? '#4a5568' : '#cbd5e0'}`,
-        borderRadius: '8px',
-        background: isDarkMode ? '#2d3748' : 'white',
-        boxShadow: isDarkMode 
-          ? '0 1px 3px rgba(0,0,0,0.4)' 
-          : '0 1px 3px rgba(0,0,0,0.12)',
-        transition: 'all 0.2s ease-out',
+        border: '1px solid var(--border)',
+        borderRadius: '12px',
+        background: 'var(--surface)',
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing)',
         position: 'relative',
         overflow: 'visible' // Allow labels to extend outside if needed
       }}
@@ -254,13 +252,11 @@ export const TextNode = ({ id, data, isConnectable }) => {
               id={`${id}-input-${variable.name}`}
               style={{
                 position: 'relative',
-                background: '#3182ce',
+                background: 'var(--primary)',
                 width: `${NODE_CONFIG.handleSize}px`,
                 height: `${NODE_CONFIG.handleSize}px`,
-                border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
-                boxShadow: isDarkMode 
-                  ? '0 1px 4px rgba(0,0,0,0.5)' 
-                  : '0 1px 4px rgba(0,0,0,0.3)',
+                border: '2px solid var(--surface)',
+                boxShadow: 'var(--shadow-sm)',
                 left: 0,
                 transform: 'translateX(-50%)'
               }}
@@ -273,13 +269,13 @@ export const TextNode = ({ id, data, isConnectable }) => {
                 position: 'absolute',
                 left: '8px',
                 fontSize: '11px',
-                color: isDarkMode ? '#f7fafc' : '#4a5568',
-                background: isDarkMode ? '#374151' : '#f7fafc',
+                color: 'var(--text)',
+                background: 'var(--surface-2)',
                 padding: '2px 6px',
                 borderRadius: '3px',
                 whiteSpace: 'nowrap',
                 userSelect: 'none',
-                border: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
+                border: '1px solid var(--border)',
                 maxWidth: `${NODE_CONFIG.labelWidth}px`,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -298,10 +294,10 @@ export const TextNode = ({ id, data, isConnectable }) => {
         className="text-node__header" 
         style={{ 
           padding: '8px 12px',
-          borderBottom: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
-          background: isDarkMode ? '#374151' : '#f7fafc',
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
+          borderBottom: '1px solid var(--border)',
+          background: 'var(--surface-2)',
+          borderTopLeftRadius: '11px',
+          borderTopRightRadius: '11px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -309,23 +305,17 @@ export const TextNode = ({ id, data, isConnectable }) => {
           boxSizing: 'border-box'
         }}
       >
-        <span style={{
-          fontWeight: '600',
-          fontSize: '12px',
-          color: isDarkMode ? '#f7fafc' : '#2d3748',
-          textTransform: 'uppercase',
-          letterSpacing: '0.5px'
-        }}>
+        <span className="ds-node__title" style={{ color: 'var(--text)' }}>
           Text Node
         </span>
         {variables.length > 0 && (
           <span style={{
             fontSize: '10px',
-            color: isDarkMode ? '#cbd5e0' : '#718096',
-            background: isDarkMode ? '#2d3748' : 'white',
+            color: 'var(--text-muted)',
+            background: 'var(--surface)',
             padding: '2px 6px',
             borderRadius: '10px',
-            border: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`
+            border: '1px solid var(--border)'
           }}>
             {variables.length} var{variables.length !== 1 ? 's' : ''}
           </span>
@@ -354,24 +344,24 @@ export const TextNode = ({ id, data, isConnectable }) => {
             height: '100%',
             resize: 'none',
             overflow: 'auto',
-            border: `1px solid ${isDarkMode ? '#4a5568' : '#e2e8f0'}`,
-            borderRadius: '4px',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
             padding: '8px',
             boxSizing: 'border-box',
             fontFamily: 'Monaco, Consolas, monospace',
             fontSize: '13px',
             lineHeight: '1.6',
             outline: 'none',
-            transition: 'all 0.2s',
-            background: isDarkMode ? '#374151' : '#ffffff',
-            color: isDarkMode ? '#f7fafc' : '#2d3748'
+            transition: 'border-color var(--duration) var(--easing), box-shadow var(--duration) var(--easing), background var(--duration) var(--easing), color var(--duration) var(--easing)',
+            background: 'var(--surface)',
+            color: 'var(--text)'
           }}
           onFocus={(e) => {
-            e.target.style.borderColor = '#3182ce';
-            e.target.style.boxShadow = '0 0 0 3px rgba(49, 130, 206, 0.1)';
+            e.target.style.borderColor = 'var(--primary)';
+            e.target.style.boxShadow = '0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent)';
           }}
           onBlur={(e) => {
-            e.target.style.borderColor = isDarkMode ? '#4a5568' : '#e2e8f0';
+            e.target.style.borderColor = 'var(--border)';
             e.target.style.boxShadow = 'none';
           }}
         />
@@ -383,13 +373,11 @@ export const TextNode = ({ id, data, isConnectable }) => {
         position={Position.Right}
         id={`${id}-output`}
         style={{
-          background: '#48bb78',
+          background: 'var(--success)',
           width: `${NODE_CONFIG.handleSize}px`,
           height: `${NODE_CONFIG.handleSize}px`,
-          border: `2px solid ${isDarkMode ? '#2d3748' : 'white'}`,
-          boxShadow: isDarkMode 
-            ? '0 1px 4px rgba(0,0,0,0.5)' 
-            : '0 1px 4px rgba(0,0,0,0.3)',
+          border: '2px solid var(--surface)',
+          boxShadow: 'var(--shadow-sm)',
           right: -NODE_CONFIG.handleSize/2
         }}
         isConnectable={isConnectable}
