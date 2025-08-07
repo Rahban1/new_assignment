@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { PipelineToolbar } from './toolbar';
 import { PipelineUI } from './ui';
 import { SubmitButton } from './submit';
@@ -6,6 +7,7 @@ import { DarkModeToggle } from './DarkModeToggle';
 
 function AppContent() {
   const { isDarkMode } = useDarkMode();
+  const [isToolbarExpanded, setIsToolbarExpanded] = useState(false);
 
   return (
     <div style={{
@@ -18,9 +20,21 @@ function AppContent() {
       position: 'relative'
     }}>
       <DarkModeToggle />
-      <PipelineToolbar />
       <PipelineUI />
-      <SubmitButton />
+      <div style={{
+        position: 'absolute',
+        bottom: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        padding: '10px',
+        transition: 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+      }}>
+        <PipelineToolbar isExpanded={isToolbarExpanded} toggleToolbar={() => setIsToolbarExpanded(!isToolbarExpanded)} />
+        <SubmitButton />
+      </div>
     </div>
   );
 }

@@ -41,22 +41,17 @@ Is it a DAG? ${dagStatus}`);
     };
 
     return (
-        <div style={{
-            position: 'absolute',
-            bottom: '20px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            zIndex: 1000,
-            transition: 'all 0.3s ease'
-        }}>
+        <div>
             <button 
                 type="submit"
                 onClick={handleSubmit}
                 style={{
-                    padding: '12px 24px',
+                    padding: '12px',
+                    width: '48px',
+                    height: '48px',
                     fontSize: '14px',
                     fontWeight: '600',
-                    borderRadius: '8px',
+                    borderRadius: '50%',
                     border: 'none',
                     backgroundColor: isDarkMode ? '#48bb78' : '#38a169',
                     color: 'white',
@@ -65,8 +60,9 @@ Is it a DAG? ${dagStatus}`);
                     boxShadow: isDarkMode 
                         ? '0 2px 4px rgba(0,0,0,0.4)' 
                         : '0 2px 4px rgba(0,0,0,0.1)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.5px'
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                 }}
                 onMouseOver={(e) => {
                     e.target.style.backgroundColor = isDarkMode ? '#38a169' : '#2f855a';
@@ -83,7 +79,9 @@ Is it a DAG? ${dagStatus}`);
                         : '0 2px 4px rgba(0,0,0,0.1)';
                 }}
             >
-                Submit
+                <svg fill="currentColor" width="24" height="24" viewBox="0 0 24 24" id="paper-plane-2" data-name="Line Color" xmlns="http://www.w3.org/2000/svg" className="icon line-color">
+                  <path id="primary" d="M21,3,3,10.53l8.72,2.1L14.4,21Z" style={{ stroke: 'currentColor', strokeLinecap: 'round', strokeLinejoin: 'round', strokeWidth: 2 }}></path>
+                </svg>
             </button>
         </div>
     );
