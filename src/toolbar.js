@@ -1,20 +1,33 @@
 // toolbar.js
 
+import { useState } from 'react';
 import { useDarkMode } from './DarkModeContext';
+import {
+    InputIcon,
+    LLMIcon,
+    OutputIcon,
+    TextIcon,
+    DocumentIcon,
+    FilterIcon,
+    MergeIcon,
+    SplitIcon,
+    VisualizeIcon
+} from './icons';
 
 export const PipelineToolbar = ({ isExpanded, toggleToolbar }) => {
     const { isDarkMode } = useDarkMode();
+    const [hoveredIcon, setHoveredIcon] = useState(null);
 
     const nodeTypes = [
-        { type: 'customInput', label: 'Input' },
-        { type: 'llm', label: 'LLM' },
-        { type: 'customOutput', label: 'Output' },
-        { type: 'text', label: 'Text' },
-        { type: 'document', label: 'Document' },
-        { type: 'filter', label: 'Filter' },
-        { type: 'merge', label: 'Merge' },
-        { type: 'split', label: 'Split' },
-        { type: 'visualize', label: 'Visualize' }
+        { type: 'customInput', label: 'Input', icon: <InputIcon /> },
+        { type: 'llm', label: 'LLM', icon: <LLMIcon /> },
+        { type: 'customOutput', label: 'Output', icon: <OutputIcon /> },
+        { type: 'text', label: 'Text', icon: <TextIcon /> },
+        { type: 'document', label: 'Document', icon: <DocumentIcon /> },
+        { type: 'filter', label: 'Filter', icon: <FilterIcon /> },
+        { type: 'merge', label: 'Merge', icon: <MergeIcon /> },
+        { type: 'split', label: 'Split', icon: <SplitIcon /> },
+        { type: 'visualize', label: 'Visualize', icon: <VisualizeIcon /> }
     ];
 
     return (
@@ -27,7 +40,8 @@ export const PipelineToolbar = ({ isExpanded, toggleToolbar }) => {
             padding: '5px',
             backdropFilter: 'blur(10px)',
             border: isDarkMode ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
-            transition: 'all 0.5s ease'
+            transition: 'all 0.5s ease',
+            position: 'relative'
         }}>
             <div style={{
                 display: 'flex',
@@ -49,20 +63,39 @@ export const PipelineToolbar = ({ isExpanded, toggleToolbar }) => {
                             event.dataTransfer.effectAllowed = 'move';
                         }}
                         onDragEnd={(event) => (event.target.style.cursor = 'grab')}
+                        onMouseEnter={() => setHoveredIcon(node.label)}
+                        onMouseLeave={() => setHoveredIcon(null)}
                         style={{
-                            padding: '5px 10px',
+                            padding: '10px',
                             margin: '0 5px',
                             borderRadius: '16px',
                             backgroundColor: isDarkMode ? '#374151' : '#2563eb',
                             color: 'white',
                             cursor: 'grab',
-                            fontSize: '16px',
-                            fontWeight: '600',
                             userSelect: 'none',
-                            whiteSpace: 'nowrap'
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative'
                         }}
                     >
-                        {node.label}
+                        {node.icon}
+                        {hoveredIcon === node.label && (
+                            <div style={{
+                                position: 'absolute',
+                                top: '-10%',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                backgroundColor: '#333',
+                                color: 'white',
+                                padding: '5px 10px',
+                                borderRadius: '4px',
+                                fontSize: '14px',
+                                whiteSpace: 'nowrap',
+                            }}>
+                                {node.label}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
