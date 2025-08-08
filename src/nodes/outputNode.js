@@ -2,10 +2,8 @@
 
 import { useState } from 'react';
 import { Handle, Position } from 'reactflow';
-import { useDarkMode } from '../DarkModeContext';
 
 export const OutputNode = ({ id, data, isConnectable }) => {
-  const { isDarkMode } = useDarkMode();
   const [currName, setCurrName] = useState(data?.outputName || id.replace('customOutput-', 'output_'));
   const [outputType, setOutputType] = useState(data.outputType || 'Text');
 
