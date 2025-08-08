@@ -9,8 +9,8 @@ export const DarkModeToggle = () => {
       onClick={toggleDarkMode}
       style={{
         position: 'fixed',
-        top: '16px',
-        right: '16px',
+        top: '25px',
+        right: '25px',
         width: '48px',
         height: '48px',
         borderRadius: '50%',
@@ -28,16 +28,14 @@ export const DarkModeToggle = () => {
       }}
       onMouseOver={(e) => {
         e.target.style.transform = 'translateY(-1px) scale(1.04)';
-        e.target.style.boxShadow = getComputedStyle(document.body).getPropertyValue('--shadow-md');
       }}
       onMouseOut={(e) => {
         e.target.style.transform = 'scale(1)';
-        e.target.style.boxShadow = getComputedStyle(document.body).getPropertyValue('--shadow-sm');
       }}
       title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
     >
       {isDarkMode ? (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" >
           <circle cx="12" cy="12" r="5"/>
           <line x1="12" y1="1" x2="12" y2="3"/>
           <line x1="12" y1="21" x2="12" y2="23"/>
