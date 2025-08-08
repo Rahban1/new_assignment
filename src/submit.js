@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useDarkMode } from './DarkModeContext';
+
 import { useStore } from './store';
+import { parsePipeline } from './services/pipelines';
 
 export const SubmitButton = () => {
-    const { isDarkMode } = useDarkMode();
     const nodes = useStore((state) => state.nodes);
     const edges = useStore((state) => state.edges);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,25 +26,14 @@ export const SubmitButton = () => {
         };
 
         try {
-            const formData = new FormData();
-            formData.append('pipeline', JSON.stringify(pipeline));
+            const result = await parsePipeline(pipeline);
 
-            const response = await fetch('http://localhost:8000/pipelines/parse', {
-                method: 'POST',
-                body: formData,
-            });
-
-            const result = await response.json();
-            
             if (result.error) {
                 setLastSubmissionResult({ success: false, message: result.error });
                 toast.error(`Error: ${result.error}`);
             } else {
                 const dagStatus = result.is_dag ? 'Yes, it is a DAG' : 'No, it contains cycles';
-                const message = `Pipeline Analysis:
-Number of nodes: ${result.num_nodes}
-Number of edges: ${result.num_edges}
-Is it a DAG? ${dagStatus}`;
+                const message = `Pipeline Analysis:\nNumber of nodes: ${result.num_nodes}\nNumber of edges: ${result.num_edges}\nIs it a DAG? ${dagStatus}`;
                 setLastSubmissionResult({ success: true, message });
                 toast.success(message);
             }
@@ -179,7 +168,7 @@ Is it a DAG? ${dagStatus}`;
                         }
                     }}
                     aria-label={getTooltipText()}
-                    role="button"
+
                     tabIndex={0}
                 >
                     {renderIcon()}

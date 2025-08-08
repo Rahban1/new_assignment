@@ -1,7 +1,6 @@
 // TextNode.js
 import { useState, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
 import { Handle, Position } from 'reactflow';
-import { useDarkMode } from '../DarkModeContext';
 
 // Configuration constants
 const NODE_CONFIG = {
@@ -71,7 +70,6 @@ const extractVariables = (text) => {
 };
 
 export const TextNode = ({ id, data, isConnectable }) => {
-  const { isDarkMode } = useDarkMode();
   const [currText, setCurrText] = useState(data?.text || NODE_CONFIG.defaultText);
   const [dimensions, setDimensions] = useState({
     width: NODE_CONFIG.minWidth,

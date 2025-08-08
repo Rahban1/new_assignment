@@ -1,6 +1,6 @@
 // draggableNode.js
 
-import { useDarkMode } from './DarkModeContext';
+import { useDarkMode } from './contexts/DarkModeContext';
 
 export const DraggableNode = ({ type, label }) => {
     const { isDarkMode } = useDarkMode();

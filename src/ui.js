@@ -6,17 +6,9 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, { Controls, Background, MiniMap, getBezierPath } from 'reactflow';
 import { useStore } from './store';
 import { shallow } from 'zustand/shallow';
-import { InputNode } from './nodes/inputNode';
-import { LLMNode } from './nodes/llmNode';
-import { OutputNode } from './nodes/outputNode';
-import { TextNode } from './nodes/textNode';
-import { DocumentNode } from './nodes/documentNode';
-import { FilterNode } from './nodes/filterNode';
-import { MergeNode } from './nodes/mergeNode';
-import { SplitNode } from './nodes/splitNode';
-import { VisualizeNode } from './nodes/visualizeNode';
-import CustomBezierEdge from './CustomBezierEdge';
-import { useDarkMode } from './DarkModeContext';
+import { nodeTypes } from './graph/nodeTypes';
+import { edgeTypes } from './graph/edgeTypes';
+import { useDarkMode } from './contexts/DarkModeContext';
 
 import 'reactflow/dist/style.css';
 
@@ -43,22 +35,7 @@ const CustomConnectionLine = ({ fromX, fromY, toX, toY, connectionLineStyle }) =
   );
 };
 
-// Define nodeTypes and edgeTypes outside component to prevent re-creation on every render
-const nodeTypes = {
-  customInput: InputNode,
-  llm: LLMNode,
-  customOutput: OutputNode,
-  text: TextNode,
-  document: DocumentNode,
-  filter: FilterNode,
-  merge: MergeNode,
-  split: SplitNode,
-  visualize: VisualizeNode,
-};
-
-const edgeTypes = {
-  custom: CustomBezierEdge,
-};
+// nodeTypes and edgeTypes centralized in graph/* modules
 
 
 const selector = (state) => ({
