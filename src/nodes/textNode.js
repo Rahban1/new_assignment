@@ -1,6 +1,7 @@
 // TextNode.js
 import { useState, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
 import { Handle, Position } from 'reactflow';
+import { useStore } from '../store';
 
 // Configuration constants
 const NODE_CONFIG = {
@@ -70,6 +71,7 @@ const extractVariables = (text) => {
 };
 
 export const TextNode = ({ id, data, isConnectable }) => {
+  const deleteNode = useStore((state) => state.deleteNode);
   const [currText, setCurrText] = useState(data?.text || NODE_CONFIG.defaultText);
   const [dimensions, setDimensions] = useState({
     width: NODE_CONFIG.minWidth,
@@ -79,6 +81,11 @@ export const TextNode = ({ id, data, isConnectable }) => {
   const textareaRef = useRef(null);
   const mirrorRef = useRef(null);
   const rafRef = useRef(null);
+
+  const handleDelete = (e) => {
+    e.stopPropagation();
+    deleteNode(id);
+  };
 
   const variables = useMemo(() => {
     return extractVariables(currText);
@@ -306,18 +313,52 @@ export const TextNode = ({ id, data, isConnectable }) => {
         <span className="ds-node__title" style={{ color: 'var(--text)' }}>
           Text Node
         </span>
-        {variables.length > 0 && (
-          <span style={{
-            fontSize: '10px',
-            color: 'var(--text-muted)',
-            background: 'var(--surface)',
-            padding: '2px 6px',
-            borderRadius: '10px',
-            border: '1px solid var(--border)'
-          }}>
-            {variables.length} var{variables.length !== 1 ? 's' : ''}
-          </span>
-        )}
+        <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          {variables.length > 0 && (
+            <span style={{
+              fontSize: '10px',
+              color: 'var(--text-muted)',
+              background: 'var(--surface)',
+              padding: '2px 6px',
+              borderRadius: '10px',
+              border: '1px solid var(--border)'
+            }}>
+              {variables.length} var{variables.length !== 1 ? 's' : ''}
+            </span>
+          )}
+          {/* Delete Button */}
+          <button
+            onClick={handleDelete}
+            style={{
+              width: '16px',
+              height: '16px',
+              border: 'none',
+              background: 'transparent',
+              color: 'var(--danger)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'transform var(--duration) var(--easing), color var(--duration) var(--easing)',
+              transform: 'scale(1)',
+              padding: 0
+            }}
+            onMouseOver={(e) => {
+              e.target.style.color = 'color-mix(in srgb, var(--danger) 86%, black)';
+              e.target.style.transform = 'scale(1.08)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.color = 'var(--danger)';
+              e.target.style.transform = 'scale(1)';
+            }}
+            title="Delete node"
+          >
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
       </div>
       
       {/* Content Area with dynamic padding */}

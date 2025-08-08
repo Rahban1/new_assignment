@@ -68,8 +68,7 @@ const CustomBezierEdge = ({
         markerEnd={markerEnd}
         style={{
           ...style,
-          stroke: isHovered ? 'var(--danger)' : (style.stroke || 'color-mix(in srgb, var(--text) 38%, transparent)'),
-          strokeWidth: isHovered ? 2 : (style.strokeWidth || 1.25),
+          stroke: isHovered ? 'rgb(210,0,0)' : (style.stroke || 'color-mix(in srgb, var(--text) 38%, transparent)'),
           transition: 'stroke-width var(--duration-fast) var(--easing)'
         }}
       />
@@ -95,11 +94,11 @@ const CustomBezierEdge = ({
             r={8}
             cx={labelX}
             cy={labelY}
-            fill="rgb(255,0,0)"
+            fill="rgb(235,0,0)"
             stroke="white"
             strokeWidth="1"
             style={{
-              filter: 'drop-shadow(0 2px 4px color-mix(in srgb, rgb(255,0,0) 40%, transparent))',
+              filter: 'drop-shadow(0 2px 4px color-mix(in srgb, rgb(210,0,0) 40%, transparent))',
               cursor: 'pointer'
             }}
             onClick={onEdgeClick}
