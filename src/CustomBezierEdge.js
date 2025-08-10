@@ -34,7 +34,7 @@ const CustomBezierEdge = ({
 
   const handleMouseLeave = (evt) => {
     // Only hide if we're not moving to a child element
-    if (!evt.currentTarget.contains(evt.relatedTarget)) {
+    if (!evt.relatedTarget || !evt.currentTarget.contains(evt.relatedTarget)) {
       hoverTimeoutRef.current = setTimeout(() => {
         setIsHovered(false);
       }, 300);
