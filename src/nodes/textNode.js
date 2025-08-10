@@ -332,7 +332,7 @@ export const TextNode = ({ id, data, isConnectable }) => {
           className="text-node__textarea"
           value={currText}
           onChange={handleTextChange}
-          placeholder="Enter text... Use {{variableName}} for inputs"
+          placeholder="Enter text..."
           style={{
             width: '100%',
             height: '100%',
