@@ -30,7 +30,6 @@ export const DocumentNode = ({ id, data, isConnectable }) => {
             width: '100%',
             padding: '6px 8px',
             border: '1px solid var(--border)',
-            // background: isDarkMode ? '#374151' : 'white',
             borderRadius: '8px',
             fontSize: '12px',
             outline: 'none',

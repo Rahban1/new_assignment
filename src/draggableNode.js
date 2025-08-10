@@ -1,4 +1,3 @@
-// draggableNode.js
 
 import { useDarkMode } from './contexts/DarkModeContext';
 

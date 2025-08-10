@@ -1,9 +1,7 @@
-// TextNode.js
 import { useState, useRef, useCallback, useLayoutEffect, useMemo } from 'react';
 import { Handle, Position } from 'reactflow';
 import { useStore } from '../store';
 
-// Configuration constants
 const NODE_CONFIG = {
   minWidth: 200,
   maxWidth: 400,
@@ -12,38 +10,13 @@ const NODE_CONFIG = {
   paddingX: 60,
   paddingY: 50,
   defaultText: '{{input}}',
-  handleSpacing: 42,      // Vertical spacing between handles
-  handleOffset: 20,        // Offset from node edge
-  labelIndent: 65,         // Space reserved for handle labels
-  handleSize: 12,          // Size of handle circle
-  labelWidth: 80           // Maximum width for labels
+  handleSpacing: 42,      
+  handleOffset: 20,        
+  labelIndent: 65,         
+  handleSize: 12,          
+  labelWidth: 80           
 };
 
-/**
- * Validates if a string is a valid JavaScript variable name.
- */
-const isValidJavaScriptVariableName = (name) => {
-  if (!name || name.length === 0) return false;
-  
-  const reservedKeywords = [
-    'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
-    'default', 'delete', 'do', 'else', 'export', 'extends', 'finally',
-    'for', 'function', 'if', 'import', 'in', 'instanceof', 'new', 'return',
-    'super', 'switch', 'this', 'throw', 'try', 'typeof', 'var', 'void',
-    'while', 'with', 'yield', 'let', 'static', 'enum', 'await', 'implements',
-    'interface', 'package', 'private', 'protected', 'public', 'null', 'true', 
-    'false', 'undefined', 'NaN', 'Infinity'
-  ];
-  
-  if (reservedKeywords.includes(name)) return false;
-  
-  const identifierPattern = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
-  return identifierPattern.test(name);
-};
-
-/**
- * Extracts variables from text in the format {{variableName}}.
- */
 const extractVariables = (text) => {
   if (!text) return [];
   
@@ -57,14 +30,12 @@ const extractVariables = (text) => {
     
     if (seen.has(variableName)) continue;
     
-    if (isValidJavaScriptVariableName(variableName)) {
-      seen.add(variableName);
-      matches.push({
-        name: variableName,
-        fullMatch: match[0],
-        index: match.index
-      });
-    }
+    seen.add(variableName);
+    matches.push({
+      name: variableName,
+      fullMatch: match[0],
+      index: match.index
+    });
   }
   
   return matches;
@@ -91,21 +62,14 @@ export const TextNode = ({ id, data, isConnectable }) => {
     return extractVariables(currText);
   }, [currText]);
 
-  /**
-   * Calculate handle vertical position.
-   * Positions handles in the content area, not the header.
-   */
   const getHandlePosition = useCallback((index, total) => {
-    // Start below the header (approximately 35px down)
     const headerHeight = 35;
-    const availableHeight = dimensions.height - headerHeight - 20; // Leave some bottom padding
+    const availableHeight = dimensions.height - headerHeight - 20; 
     
     if (total === 1) {
-      // Center single handle in the content area
       return headerHeight + (availableHeight / 2);
     }
     
-    // Distribute multiple handles evenly in content area
     const spacing = availableHeight / (total + 1);
     return headerHeight + spacing * (index + 1);
   }, [dimensions.height]);
@@ -160,7 +124,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
       const mirrorHeight = mirror.scrollHeight;
       const mirrorWidth = mirror.scrollWidth;
       
-      // Add extra width if we have variables (for the labels)
       const extraWidth = variables.length > 0 ? NODE_CONFIG.labelIndent : 0;
       
       const newWidth = Math.max(
@@ -168,7 +131,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
         Math.min(NODE_CONFIG.maxWidth, mirrorWidth + NODE_CONFIG.paddingX + extraWidth)
       );
       
-      // Ensure minimum height for handles
       const minHeightForHandles = variables.length > 0 
         ? Math.max(NODE_CONFIG.minHeight, 35 + (variables.length * NODE_CONFIG.handleSpacing) + 20)
         : NODE_CONFIG.minHeight;
@@ -215,7 +177,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
     }
   }, [data?.text, calculateDimensions, currText]);
 
-  // Calculate left padding for the content area when variables exist
   const contentLeftPadding = variables.length > 0 ? NODE_CONFIG.labelIndent : 8;
 
   return (
@@ -230,10 +191,9 @@ export const TextNode = ({ id, data, isConnectable }) => {
         boxShadow: 'var(--shadow-sm)',
         transition: 'transform var(--duration) var(--easing), box-shadow var(--duration) var(--easing)',
         position: 'relative',
-        overflow: 'visible' // Allow labels to extend outside if needed
+        overflow: 'visible' 
       }}
     >
-      {/* Dynamic Input Handles for Variables */}
       {variables.map((variable, index) => {
         const yPosition = getHandlePosition(index, variables.length);
         
@@ -250,7 +210,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
               zIndex: 10
             }}
           >
-            {/* The actual handle */}
             <Handle
               type="target"
               position={Position.Left}
@@ -268,7 +227,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
               isConnectable={isConnectable}
             />
             
-            {/* Variable label positioned inside the node */}
             <div
               style={{
                 position: 'absolute',
@@ -294,7 +252,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
         );
       })}
 
-      {/* Node Header */}
       <div 
         className="text-node__header" 
         style={{ 
@@ -326,7 +283,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
               {variables.length} var{variables.length !== 1 ? 's' : ''}
             </span>
           )}
-          {/* Delete Button */}
           <button
             onClick={handleDelete}
             style={{
@@ -361,13 +317,12 @@ export const TextNode = ({ id, data, isConnectable }) => {
         </div>
       </div>
       
-      {/* Content Area with dynamic padding */}
       <div 
         className="text-node__content"
         style={{ 
           padding: '12px',
-          paddingLeft: `${contentLeftPadding}px`, // Extra padding when variables exist
-          height: `calc(100% - 35px)`, // Subtract header height
+          paddingLeft: `${contentLeftPadding}px`,
+          height: `calc(100% - 35px)`,
           boxSizing: 'border-box',
           position: 'relative'
         }}
@@ -406,7 +361,6 @@ export const TextNode = ({ id, data, isConnectable }) => {
         />
       </div>
       
-      {/* Output Handle */}
       <Handle
         type="source"
         position={Position.Right}

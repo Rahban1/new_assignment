@@ -33,7 +33,6 @@ const CustomBezierEdge = ({
   };
 
   const handleMouseLeave = (evt) => {
-    // Only hide if we're not moving to a child element
     if (!evt.relatedTarget || !evt.currentTarget.contains(evt.relatedTarget)) {
       hoverTimeoutRef.current = setTimeout(() => {
         setIsHovered(false);
@@ -49,7 +48,6 @@ const CustomBezierEdge = ({
     }
   };
 
-  // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
       if (hoverTimeoutRef.current) {
@@ -60,7 +58,6 @@ const CustomBezierEdge = ({
 
   return (
     <>
-      {/* Main edge path - instant color change */}
       <path
         id={id}
         className="react-flow__edge-path"
@@ -73,7 +70,6 @@ const CustomBezierEdge = ({
         }}
       />
       
-      {/* Extra thick invisible hover area for reliable detection */}
       <path
         d={edgePath}
         fill="none"
@@ -87,7 +83,6 @@ const CustomBezierEdge = ({
         onMouseLeave={handleMouseLeave}
       />
       
-      {/* Delete button - positioned absolutely to avoid interfering with hover */}
       {isHovered && (
         <g style={{ pointerEvents: 'all' }}>
           <circle

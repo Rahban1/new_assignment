@@ -1,4 +1,3 @@
-// toolbar.js
 
 import { useState } from 'react';
 import { nodePalette } from './data/nodePalette';
@@ -7,7 +6,6 @@ export const PipelineToolbar = ({ isExpanded, toggleToolbar }) => {
     const [hoveredIcon, setHoveredIcon] = useState(null);
     const [hoveredToggle, setHoveredToggle] = useState(false);
 
-    // Externalized palette metadata
     const nodeTypes = nodePalette.map((item) => ({
         ...item,
         icon: <item.icon />,

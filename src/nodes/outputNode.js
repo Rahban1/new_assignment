@@ -1,4 +1,3 @@
-// outputNode.js
 
 import { useState } from 'react';
 import { Position } from 'reactflow';

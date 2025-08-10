@@ -1,4 +1,3 @@
-// llmNode.js
 
 import { Position } from 'reactflow';
 import { BaseNode } from './node_skeleton';

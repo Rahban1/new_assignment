@@ -1,4 +1,3 @@
-// Node.js
 
 import { Handle } from 'reactflow';
 import { useStore } from '../store';

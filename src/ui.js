@@ -1,6 +1,3 @@
-// ui.js
-// Displays the drag-and-drop UI
-// --------------------------------------------------
 
 import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import ReactFlow, { Controls, Background, MiniMap, getBezierPath } from 'reactflow';
@@ -35,7 +32,6 @@ const CustomConnectionLine = ({ fromX, fromY, toX, toY, connectionLineStyle }) =
   );
 };
 
-// nodeTypes and edgeTypes centralized in graph/* modules
 
 
 const selector = (state) => ({
@@ -72,20 +68,17 @@ export const PipelineUI = () => {
     const showMiniMapTemporarily = useCallback(() => {
       setShowMiniMap(true);
       
-      // Clear existing timeout
       setHideTimeout(prevTimeout => {
         if (prevTimeout) {
           clearTimeout(prevTimeout);
         }
         
-        // Set new timeout to hide minimap after 2 seconds
         return setTimeout(() => {
           setShowMiniMap(false);
         }, 2000);
       });
     }, []);
 
-    // Clean up timeout on component unmount
     useEffect(() => {
       return () => {
         if (hideTimeout) {
@@ -103,7 +96,6 @@ export const PipelineUI = () => {
             const appData = JSON.parse(event.dataTransfer.getData('application/reactflow'));
             const type = appData?.nodeType;
       
-            // check if the dropped element is valid
             if (typeof type === 'undefined' || !type) {
               return;
             }
